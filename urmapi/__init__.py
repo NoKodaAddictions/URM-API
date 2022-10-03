@@ -1,12 +1,10 @@
 """
-Update Rollout Manager API
+Update Rollout Manager API [URM-API]
 
 Simple? way to manage application updates?
 Made by NoKodaAddictions, NoKoda
 """
 
-from struct import pack
-from importlib_metadata import packages_distributions
 import requests
 from termcolor import colored
 
@@ -34,5 +32,5 @@ class API:
     def update(self):
         return
 
-class BUILD:
+class Build:
     pass

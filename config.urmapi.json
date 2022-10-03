@@ -1,0 +1,23 @@
+{
+    "HEAD":{
+        "package":{
+            "name":"Test Package",
+            "version":"1.0",
+            "description":"A Test Package to see if URM-API actually works",
+            "license":"",
+            "authors":["NoKodaAddictions"],
+            "package_url":"https://raw.githubusercontent.com/NoKodaAddictions/theuselessrepository/master/"
+        },
+        "config":{
+            "version":"1.0"
+        }
+    },
+    "CONTENT":{
+        "files":[
+            "urm.py",
+            "perk.txt",
+            "pop/lorem.txt",
+            "etc/bin/no.txt"
+        ]
+    } 
+}
