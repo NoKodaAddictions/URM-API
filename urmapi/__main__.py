@@ -15,12 +15,27 @@ class modules:
             return
         
         def help():
-            return
+            print("Variables:")
+            for vKey, vVal in variables.items():
+                print(f"{vKey}\t\t{vVal[0]}")
+                
+            print()
+
+            print("Options: ")
+            for oKey, oVal in options.items():
+                print(f"{oKey}\t\t{oVal[0]}")
+
+            print()
+
+            print("Commands: ")
+            for cKey, cVal in commands.items():
+                print(f"{cKey}\t\t{cVal[0]}")
+
+
 
     class commands:
         def install():
             return
-
         def update():
             return
 
