@@ -1,19 +1,27 @@
 from sys import argv
-import __init__
-
-print(argv)
+from os.path import exists, dirname
+import urmapi
 
 class modules:
     executed = False
     error = ""
 
     class options:
-        def version():
-            executed = True
-            print(f"URM-API Version: {__init__.__version__}")
-            print(f"URM-API Accepted Config Versions:\n {__init__.__accepted_versions__}")
+        """
+        Meta of URM-API
+        """
+        def version() -> None:
+            """
+            Returns version of URM-API
+            """
+            modules.executed = True
+            print(f"URM-API Version: {urmapi.__version__}")
+            print(f"URM-API Accepted Config Versions:\n {urmapi.__accepted_versions__}")
         
-        def help():
+        def help() -> None:
+            """
+            Prints help message
+            """
             print("Variables:")
             for vKey, vVal in variables.items():
                 print(f"{vKey}\t\t{vVal[0]}")
@@ -30,24 +38,47 @@ class modules:
             for cKey, cVal in commands.items():
                 print(f"{cKey}\t\t{cVal[0]}")
 
+            modules.executed = True
+
 
 
     class commands:
-        def install():
+        """
+        Interacting with the API
+        """
+        def install() -> None:
+            """
+            Installs a package
+            """
             if len(argv) > 1:
                 if argv[1].startswith("http"):
-                    api = __init__.API(server = argv[1])
+                    api = urmapi.API(server = argv[1])
                 else:
-                    api = __init__.API(directory = argv[1])
+                    api = urmapi.API(config = argv[1])
                 
-                api.install()
-                executed = True
+                if len(argv) > 2:
+                    api.install(location=argv[2])
+
+                else:
+                    api.install(location=dirname(__file__))
+                
+                modules.executed = True
 
             else:
-                error = "Please specify a link or config file"
+                modules.error = "Please specify a link or config file"
 
-        def update():
-            return
+        def update() -> None:
+            """
+            Updates a Package
+            """
+            if len(argv) > 1:
+                if exists(argv[1]):
+                    api = urmapi.API(config = argv[1])
+                    api.update()
+                    modules.executed = True
+
+            else:
+                modules.error = "Please specify a config.urmapi.json file"
 
 variables = {
     }
