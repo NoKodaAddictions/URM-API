@@ -6,16 +6,15 @@ Made by NoKodaAddictions, NoKoda
 """
 
 from json import load, dump, JSONDecodeError
-from operator import le
-from os import scandir, mkdir, system, remove
+from os import scandir, makedirs, system, remove
 from os.path import dirname, exists, join
 from uuid import uuid4, UUID
 from requests import get, Response, RequestException
 from termcolor import colored
 
-__version__ = "1.0"
+__version__ = "1.0.4"
 __accepted_versions__ = [
-    "1.0"
+    "1.0", "1.0.4"
 ]
 __directory__ = dirname(__file__)
 
@@ -115,7 +114,7 @@ class API:
                 print(f"{self.package_name}: Creating package folder...")
                 if location is not None:
                     try:
-                        mkdir(join(location, self.package_name))
+                        makedirs(join(location, self.package_name))
                         
                     except FileExistsError:
                         pass
@@ -138,7 +137,7 @@ class API:
                         
                         if path != "":
                             try:
-                                mkdir(join(location, f"{self.package_name}/{path}"))
+                                makedirs(join(location, f"{self.package_name}/{path}"))
                             except FileExistsError:
                                 pass
 
@@ -196,9 +195,9 @@ class API:
 
                                 if path != "":
                                     try:
-                                        mkdir(join(location, path))
+                                        makedirs(join(location, path))
                                     except FileExistsError:
-                                        print("FileExistsError")
+                                        pass
 
                                     with open(join(location, file), "wb") as w:
                                         w.write(frs.content)
@@ -382,15 +381,15 @@ class Ledger:
 
         :return: None
         """
-        for package in self.ledger:
-            print(f"{package['name']} Scanning...")
+        for package_id, package_data in self.ledger.copy().items():
+            print(f"{package_data['name']} Scanning...")
             
-            if exists(package["location"]) and exists(join(package["location"], "config.urmapi.json")):
-                print(colored(f"{package['name']}: Exists", "green"))
+            if exists(package_data["location"]) and exists(join(package_data["location"], "config.urmapi.json")):
+                print(colored(f"{package_data['name']}: Exists", "green"))
 
             else:
-                print(colored(f"{package['name']}: Could not be found. Removing...", "red"))
-                self.remove(package)
+                print(colored(f"{package_data['name']}: Could not be found. Removing...", "red"))
+                self.remove(package_id)
 
         print("Scan completed. Implementing changes...")
         self.implement()
