@@ -7,7 +7,7 @@ with open("requirements.txt", encoding="utf8") as r:
 
 setup(
    name='urmapi',
-   version='1.0',
+   version='1.0.4',
    description='A Decentralized Package Manager.',
    license="MIT",
    author='NoKodaAddictions',
