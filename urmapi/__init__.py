@@ -294,22 +294,22 @@ class API:
             self.package_version = self.package_data["HEAD"]["package"]["version"]
             self.package_config_version = self.package_data["HEAD"]["config"]["version"]
             self.package_server = self.package_data["HEAD"]["package"]["package_url"]
-            try:
-                self.package_license = self.package_data["HEAD"]["package"]["license"]
-                self.package_license_description = self.package_data["HEAD"]["package"]["license_description"]
-                self.package_license_url = self.package_data["HEAD"]["package"]["license_url"]
-                self.package_authors = self.package_data["HEAD"]["package"]["authors"]
-                self.package_os_support = self.package_data["HEAD"]["package"]["os_support"]
-                self.package_keywords = self.package_data["HEAD"]["package"]["keywords"]
-                self.package_install_message = self.package_data["HEAD"]["package"]["install_message"]
-                self.package_vendor_name = self.package_data["HEAD"]["package"]["vendor_name"]
-                self.package_vendor_email = self.package_data["HEAD"]["package"]["vendor_email"]
-                self.package_vendor_phone = self.package_data["HEAD"]["package"]["vendor_phone"]
-                self.package_start_file_after_install = self.package_data["HEAD"]["package"]["start_file_after_install"]
-                self.package_deprecated = self.package_data["HEAD"]["package"]["deprecated"]
-                
-            except KeyError:
-                pass
+            self.package_os_support = self.package_data["HEAD"]["package"]["os_support"]
+            self.package_deprecated = self.package_data["HEAD"]["package"]["deprecated"]
+            self.package_license = self.package_data["HEAD"]["package"]["license"]
+            self.package_license_description = self.package_data["HEAD"]["package"]["license_description"]
+            self.package_license_url = self.package_data["HEAD"]["package"]["license_url"]
+            self.package_authors = self.package_data["HEAD"]["package"]["authors"]
+            self.package_keywords = self.package_data["HEAD"]["package"]["keywords"]
+            self.package_install_message = self.package_data["HEAD"]["package"]["install_message"]
+            self.package_vendor_name = self.package_data["HEAD"]["package"]["vendor_name"]
+            self.package_vendor_email = self.package_data["HEAD"]["package"]["vendor_email"]
+            self.package_vendor_phone = self.package_data["HEAD"]["package"]["vendor_phone"]
+            self.package_start_file_after_install = self.package_data["HEAD"]["package"]["start_file_after_install"]
+            
+            self.package_content_install = self.package_data["CONTENT"]["install"]
+            self.package_content_delete = self.package_data["CONTENT"]["delete"]
+            
 
     def is_installed(self) -> bool:
         """
@@ -337,8 +337,10 @@ class API:
             pass
 
         if self.package_config_version in __accepted_versions__:
-            if self.package_os_support in Build.accepted_os:
-                return True
+            for oss in self.package_os_support:
+                if oss in Build.accepted_os:
+                    if platform in self.package_os_support:
+                        return True
         
         return False
     
@@ -505,12 +507,6 @@ class API:
                 ledger.add(name=self.package_name, location=self.location, version=__version__)
                 
                 print(colored(f"{self.package_name}: Done!"))
-                
-                if self.package_start_file_after_install is not None:
-                    if platform in ["posix", "linux"]:
-                        if self.package_start_file_after_install.endswith(".sh"):
-                            if self.package_start_file_after_install = 
-                            Popen(["sh",])
 
             else:
                 raise Exceptions.UnsupportedPackageError(f"{self.package_name}: Package is not compatible. Please check the config version and os support. URM-API supports: {__accepted_versions__}")
